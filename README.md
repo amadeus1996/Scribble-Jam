@@ -1,6 +1,9 @@
 Scribble Jam - Descriere
+
 Un joc singleplayer in limba engleza
+
 Jucatorul primeste un grup de 2-3 litere (exemplu: "adh", "vl", etc) si are un timp limitat de cateva secunde pentru a gasi si a tasta un cuvant (existent in dictionar) care sa contina acel grup de litere. In cazul in care nu reuseste si timpul se scurge, va ramane cu o viata in minus. Numarul de vieti nu este afectat de tastarea unui cuvant gresit, ci doar de timp (in concluzie ai mai multe incercari pentru fiecare runda).
+
 Numarul de vieti cu care se incepe si timpul alocat pot varia (se pot schimba din setari), cuvintele nu pot fi repetate (nu poti introduce acelasi cuvant de 2 ori de-a lungul jocului, dar poate aparea acelasi grup de litere de mai multe ori), iar substantivele proprii (nume de orase, tari, persoane, etc) nu sunt acceptate.
 
 ### Important!
