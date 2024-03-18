@@ -4,7 +4,6 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
-#include <filesystem>
 
 class Dictionary {
 private:
@@ -154,18 +153,16 @@ public:
             else if (user_difficulty == "HARD") {
                 this->difficulty = user_difficulty, this->time_limit = 5, this->starting_lives = 2;
             }
-            else if (user_difficulty == "CUSTOM") {
-                this->difficulty = user_difficulty;
+            else {
+                this->difficulty = "CUSTOM";
                 int user_time_limit, user_starting_lives;
                 f>>user_time_limit>>user_starting_lives;
                 this->time_limit = user_time_limit;
                 this->starting_lives = user_starting_lives;
             }
-            else
-                std::perror("invalid difficulty");
         }
         else
-            std::perror("file error");
+            std::perror("file not found");
     }
 };
 
