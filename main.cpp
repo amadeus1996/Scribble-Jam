@@ -1,57 +1,206 @@
 #include <iostream>
-#include <array>
+#include <string>
+#include <map>
+#include <vector>
+#include <fstream>
+#include <algorithm>
 
-#include <Helper.h>
+class Dictionary {
+private:
+    std::vector<std::string> dictionary;
+public:
+    explicit Dictionary(const std::vector<std::string> &dictionary) : dictionary{dictionary} {
+        std::cout<<"Constructor initializare Dictionary\n";
+    }
+    Dictionary(const Dictionary &other) : dictionary{other.dictionary} {
+        std::cout<<"Constructor copiere Dictionary\n";
+    }
+    Dictionary &operator=(const Dictionary &other) {
+        this->dictionary = other.dictionary;
+        std::cout<<"operator= copiere Dictionary\n";
+        return *this;
+    }
+    friend std::ostream& operator<<(std::ostream &os, const Dictionary &dict_object) {
+        os<<"Legal words: ";
+        for (const auto &word : dict_object.dictionary)
+            os<<word<<" ";
+        os<<"\n";
+        return os;
+    }
+    ~Dictionary() { std::cout<<"Destructor Dictionary\n"; }
 
-int main() {
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
+    // -----------------------------------------------------------------
+
+    void loadDictionaryFromFile(const std::string &file) {
+        std::ifstream f(file);
+        if (f.is_open()) {
+            std::string word;
+            while (f>>word)
+                this->dictionary.push_back(word);
+            f.close();
+        }
+        else
+            std::perror("Error");
     }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
+    void addWords(const std::vector<std::string> &new_words) {
+        for (auto &word: new_words)
+            this->dictionary.push_back(word);
     }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
-    ///                Exemplu de utilizare cod generat                     ///
-    ///////////////////////////////////////////////////////////////////////////
-    Helper helper;
-    helper.help();
-    ///////////////////////////////////////////////////////////////////////////
+    void emptyDictionary() {
+        this->dictionary.clear();
+    }
+};
+
+class Word {
+private:
+    std::string letters;
+    std::map<std::string, bool> word_tracker;
+public:
+    Word(const std::string &letters, const std::map<std::string, bool> &word_tracker) : letters{letters}, word_tracker{word_tracker} {
+        std::cout<<"Constructor initializare Word\n";
+    }
+    Word(const Word &other) : letters{other.letters} {
+        std::cout<<"Constructor copiere Word\n";
+    }
+    Word &operator=(const Word &other) {
+        this->letters = other.letters;
+        std::cout<<"operator= copiere Word\n";
+        return *this;
+    }
+    friend std::ostream& operator<<(std::ostream &os, const Word &word_object) {
+        os<<"Letters: "<<word_object.letters<<"\nWords used: ";
+        for (const auto &i : word_object.word_tracker)
+            os<<i.first<<" ";
+        os<<"\n";
+        return os;
+    }
+    ~Word() { std::cout<<"Destructor Word\n"; }
+
+    // -----------------------------------------------------------------
+
+    [[nodiscard]] bool wordAttempt(const std::string &player_word) {
+        if (player_word.find(this->letters) != std::string::npos && this->word_tracker.find(player_word) == this->word_tracker.end()) {
+            this->word_tracker[player_word] = true;
+            return true;
+        }
+        return false;
+    }
+};
+
+class Player {
+private:
+    int lives;
+    int score;
+public:
+    Player(const int lives, const int score) : lives(lives), score(score) {
+        std::cout<<"Constructor initializare Player\n";
+    }
+    Player(const Player &other) : lives{other.lives}, score{other.score} {
+        std::cout<<"Constructor copiere Player\n";
+    }
+    Player &operator=(const Player &other) {
+        this->lives = other.lives;
+        this->score = other.score;
+        std::cout<<"operator= copiere Player\n";
+        return *this;
+    }
+    friend std::ostream &operator<<(std::ostream &os, const Player &player) {
+        os<<"Score: "<<player.score<<"\nLives: "<<player.lives<<"\n";
+        return os;
+    }
+    ~Player() { std::cout<<"Destructor Player\n"; }
+};
+
+class Configuration {
+private:
+    std::string difficulty;
+    int time_limit;
+    int starting_lives;
+public:
+    Configuration(const std::string &default_difficulty = "NORMAL", const int time_limit = 10, const int starting_lives = 3) : difficulty{default_difficulty}, time_limit{time_limit}, starting_lives{starting_lives} {
+        std::cout<<"Constructor initializare Configuration\n";
+    }
+    Configuration(const Configuration &other) : difficulty{other.difficulty}, time_limit{other.time_limit}, starting_lives{other.starting_lives} {
+        std::cout<<"Constructor copiere Configuration\n";
+    }
+    Configuration &operator=(const Configuration &other) {
+        this->difficulty = other.difficulty;
+        this->time_limit = other.time_limit;
+        this->starting_lives = other.starting_lives;
+        std::cout<<"operator= copiere Configuration\n";
+        return *this;
+    }
+    friend std::ostream &operator<<(std::ostream &os, const Configuration &config) {
+        os<<"Difficulty: "<<config.difficulty<<"\nTime limit: "<<config.time_limit<<"\n"<<"Lives: "<<config.starting_lives<<"\n";
+        return os;
+    }
+    ~Configuration() { std::cout<<"Destructor Configuration\n"; }
+
+    // -----------------------------------------------------------------
+
+    void loadSettings() {
+        std::string user_difficulty;
+        std::ifstream f("tastatura.txt");
+        if (f.is_open()) {
+            f>>user_difficulty;
+            std::transform(user_difficulty.begin(), user_difficulty.end(), user_difficulty.begin(), ::toupper);
+            if (user_difficulty == "EASY") {
+                this->difficulty = user_difficulty, this->time_limit = 15, this->starting_lives = 5;
+            }
+            else if (user_difficulty == "NORMAL") {
+                this->difficulty = user_difficulty, this->time_limit = 10, this->starting_lives = 3;
+            }
+            else if (user_difficulty == "HARD") {
+                this->difficulty = user_difficulty, this->time_limit = 5, this->starting_lives = 2;
+            }
+            else if (user_difficulty == "CUSTOM") {
+                this->difficulty = user_difficulty;
+                int user_time_limit, user_starting_lives;
+                f>>user_time_limit>>user_starting_lives;
+                this->time_limit = user_time_limit;
+                this->starting_lives = user_starting_lives;
+            }
+            else
+                std::perror("invalid difficulty");
+        }
+        else
+            std::perror("file error");
+    }
+};
+
+int main()
+{
+    /*Dictionary dict1({}), dict2({"pressured", "vanilla", "interrogation"});
+    dict1.addWords({"red"});
+    dict1.loadDictionaryFromFile("dict_test.txt");
+    dict1.addWords({"surprisingly", "forecast", "weathered"});
+    operator<<(std::cout, dict1);
+    dict1 = dict2;
+    operator<<(std::cout, dict1);
+    dict2.emptyDictionary();
+    operator<<(std::cout, dict2);*/
+
+    /*Dictionary dict({});
+    dict.loadDictionaryFromFile("dict_test.txt");
+    operator<<(std::cout, dict);
+    Word word1("ou", {}), word2("iti", {});
+    std::cout<<word1.wordAttempt("house")<<"\n"<<word1.wordAttempt("house")<<"\n";
+    std::cout<<word2.wordAttempt("block")<<"\n"<<word2.wordAttempt("overwriting")<<"\n";
+    operator<<(std::cout, dict);
+    operator<<(std::cout, word2);
+    word2 = word1;
+    operator<<(std::cout, word2);*/
+
+    /*Player player1(3, 5), player2(1, 4);
+    operator<<(operator<<(std::cout, player1), player2);
+    player1 = player2;
+    operator<<(std::cout, player1);*/
+
+    /*Configuration config1, config2;
+    operator<<(std::cout, config1);
+    config1.loadSettings();
+    operator<<(std::cout, config1);
+    config2 = config1;
+    operator<<(std::cout, config2);*/
     return 0;
 }
