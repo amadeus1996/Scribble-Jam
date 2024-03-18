@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <filesystem>
 
 class Dictionary {
 private:
@@ -140,7 +141,7 @@ public:
 
     void loadSettings() {
         std::string user_difficulty;
-        std::ifstream f("tastatura.txt");
+        std::ifstream f("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\tastatura.txt");
         if (f.is_open()) {
             f>>user_difficulty;
             std::transform(user_difficulty.begin(), user_difficulty.end(), user_difficulty.begin(), ::toupper);
@@ -172,7 +173,7 @@ int main()
 {
     /*Dictionary dict1({}), dict2({"pressured", "vanilla", "interrogation"});
     dict1.addWords({"red"});
-    dict1.loadDictionaryFromFile("dict_test.txt");
+    dict1.loadDictionaryFromFile("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\dict_test.txt");
     dict1.addWords({"surprisingly", "forecast", "weathered"});
     operator<<(std::cout, dict1);
     dict1 = dict2;
