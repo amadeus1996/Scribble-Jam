@@ -179,7 +179,7 @@ int main()
     operator<<(std::cout, dict2);*/
 
     /*Dictionary dict({});
-    dict.loadDictionaryFromFile("dict_test.txt");
+    dict.loadDictionaryFromFile("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\dict_test.txt");
     operator<<(std::cout, dict);
     Word word1("ou", {}), word2("iti", {});
     std::cout<<word1.wordAttempt("house")<<"\n"<<word1.wordAttempt("house")<<"\n";
