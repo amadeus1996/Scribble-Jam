@@ -8,15 +8,17 @@
 class Dictionary {
 private:
     std::vector<std::string> dictionary;
+    std::map<std::string, bool> word_tracker;
 public:
-    explicit Dictionary(const std::vector<std::string> &dictionary) : dictionary{dictionary} {
+    explicit Dictionary(const std::vector<std::string> &dictionary, const std::map<std::string, bool> &word_tracker) : dictionary{dictionary}, word_tracker{word_tracker} {
         std::cout<<"Constructor initializare Dictionary\n";
     }
-    Dictionary(const Dictionary &other) : dictionary{other.dictionary} {
+    Dictionary(const Dictionary &other) : dictionary{other.dictionary}, word_tracker{other.word_tracker} {
         std::cout<<"Constructor copiere Dictionary\n";
     }
     Dictionary &operator=(const Dictionary &other) {
         this->dictionary = other.dictionary;
+        this->word_tracker = other.word_tracker;
         std::cout<<"operator= copiere Dictionary\n";
         return *this;
     }
@@ -24,6 +26,9 @@ public:
         os<<"Legal words: ";
         for (const auto &word : dict_object.dictionary)
             os<<word<<" ";
+        os<<"\nWords used: ";
+        for (const auto &i : dict_object.word_tracker)
+            os<<i.first<<" ";
         os<<"\n";
         return os;
     }
@@ -48,15 +53,21 @@ public:
     }
     void emptyDictionary() {
         this->dictionary.clear();
+        this->word_tracker.clear();
+    }
+    [[nodiscard]] const std::map<std::string, bool> &getWordTracker() const {
+        return word_tracker;
+    }
+    [[nodiscard]] const std::vector<std::string> &getDictionary() const {
+        return dictionary;
     }
 };
 
 class Word {
 private:
     std::string letters;
-    std::map<std::string, bool> word_tracker;
 public:
-    Word(const std::string &letters, const std::map<std::string, bool> &word_tracker) : letters{letters}, word_tracker{word_tracker} {
+    explicit Word(const std::string &letters) : letters{letters} {
         std::cout<<"Constructor initializare Word\n";
     }
     Word(const Word &other) : letters{other.letters} {
@@ -68,19 +79,19 @@ public:
         return *this;
     }
     friend std::ostream& operator<<(std::ostream &os, const Word &word_object) {
-        os<<"Letters: "<<word_object.letters<<"\nWords used: ";
-        for (const auto &i : word_object.word_tracker)
-            os<<i.first<<" ";
-        os<<"\n";
+        os<<"Letters: "<<word_object.letters<<"\n";
         return os;
     }
     ~Word() { std::cout<<"Destructor Word\n"; }
 
     // -----------------------------------------------------------------
 
-    [[nodiscard]] bool wordAttempt(const std::string &player_word) {
-        if (player_word.find(this->letters) != std::string::npos && this->word_tracker.find(player_word) == this->word_tracker.end()) {
-            this->word_tracker[player_word] = true;
+    [[nodiscard]] bool wordAttempt(const std::string &player_word, Dictionary &dict_object) {
+        std::map<std::string, bool> word_tracker = dict_object.getWordTracker();
+        std::vector<std::string> dictionary = dict_object.getDictionary();
+        if (player_word.find(letters) != std::string::npos && word_tracker.find(player_word) == word_tracker.end()) {
+            word_tracker[player_word] = true;
+            dict_object = Dictionary(dictionary, word_tracker);
             return true;
         }
         return false;
@@ -117,7 +128,7 @@ private:
     int time_limit;
     int starting_lives;
 public:
-    Configuration(const std::string &default_difficulty = "NORMAL", const int time_limit = 10, const int starting_lives = 3) : difficulty{default_difficulty}, time_limit{time_limit}, starting_lives{starting_lives} {
+    explicit Configuration(const std::string &default_difficulty = "NORMAL", const int time_limit = 10, const int starting_lives = 3) : difficulty{default_difficulty}, time_limit{time_limit}, starting_lives{starting_lives} {
         std::cout<<"Constructor initializare Configuration\n";
     }
     Configuration(const Configuration &other) : difficulty{other.difficulty}, time_limit{other.time_limit}, starting_lives{other.starting_lives} {
@@ -168,7 +179,7 @@ public:
 
 int main()
 {
-    /*Dictionary dict1({}), dict2({"pressured", "vanilla", "interrogation"});
+    Dictionary dict1({}, {}), dict2({"pressured", "vanilla", "interrogation"}, {});
     dict1.addWords({"red"});
     dict1.loadDictionaryFromFile("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\dict_test.txt");
     dict1.addWords({"surprisingly", "forecast", "weathered"});
@@ -176,29 +187,41 @@ int main()
     dict1 = dict2;
     operator<<(std::cout, dict1);
     dict2.emptyDictionary();
-    operator<<(std::cout, dict2);*/
+    operator<<(std::cout, dict2);
+    std::cout<<"\n";
 
-    /*Dictionary dict({});
+    Dictionary dict({}, {});
     dict.loadDictionaryFromFile("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\dict_test.txt");
     operator<<(std::cout, dict);
-    Word word1("ou", {}), word2("iti", {});
-    std::cout<<word1.wordAttempt("house")<<"\n"<<word1.wordAttempt("house")<<"\n";
-    std::cout<<word2.wordAttempt("block")<<"\n"<<word2.wordAttempt("overwriting")<<"\n";
+    Word word1("ou"), word2("iti"), word3("ess"), word4("it"), word5("pen");
+    std::cout<<word1.wordAttempt("house", dict)<<"\n";
+    std::cout<<word1.wordAttempt("house", dict)<<"\n";
+    std::cout<<word2.wordAttempt("block", dict)<<"\n";
+    std::cout<<word2.wordAttempt("overwriting", dict)<<"\n";
+    std::cout<<word3.wordAttempt("quintessence", dict)<<"\n";
+    std::cout<<word4.wordAttempt("overwriting", dict)<<"\n";
+    std::cout<<word4.wordAttempt("white", dict)<<"\n";
+    std::cout<<word5.wordAttempt("suspend", dict)<<"\n";
+    operator<<(std::cout, dict);
+    dict.emptyDictionary();
     operator<<(std::cout, dict);
     operator<<(std::cout, word2);
     word2 = word1;
-    operator<<(std::cout, word2);*/
+    operator<<(std::cout, word2);
+    std::cout<<"\n";
 
-    /*Player player1(3, 5), player2(1, 4);
+    Player player1(3, 5), player2(1, 4);
     operator<<(operator<<(std::cout, player1), player2);
     player1 = player2;
-    operator<<(std::cout, player1);*/
+    operator<<(std::cout, player1);
+    std::cout<<"\n";
 
-    /*Configuration config1, config2;
+    Configuration config1, config2;
     operator<<(std::cout, config1);
     config1.loadSettings();
     operator<<(std::cout, config1);
     config2 = config1;
-    operator<<(std::cout, config2);*/
+    operator<<(std::cout, config2);
+    std::cout<<"\n";
     return 0;
 }
