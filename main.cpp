@@ -1,11 +1,10 @@
+#include "headers/Dictionary.h"
+#include "headers/Word.h"
+#include "headers/Player.h"
+#include "headers/Configuration.h"
 #include <iostream>
-#include <string>
-#include <map>
-#include <vector>
-#include <fstream>
-#include <algorithm>
 
-class Dictionary {
+/*class Dictionary {
 private:
     std::vector<std::string> dictionary;
     std::map<std::string, bool> word_tracker;
@@ -61,9 +60,9 @@ public:
     [[nodiscard]] const std::vector<std::string> &getDictionary() const {
         return dictionary;
     }
-};
+};*/
 
-class Word {
+/*class Word {
 private:
     std::string letters;
 public:
@@ -84,8 +83,6 @@ public:
     }
     ~Word() { std::cout<<"Destructor Word\n"; }
 
-    // -----------------------------------------------------------------
-
     [[nodiscard]] bool wordAttempt(const std::string &player_word, Dictionary &dict_object) {
         std::map<std::string, bool> word_tracker = dict_object.getWordTracker();
         std::vector<std::string> dictionary = dict_object.getDictionary();
@@ -96,9 +93,9 @@ public:
         }
         return false;
     }
-};
+};*/
 
-class Player {
+/*class Player {
 private:
     int lives;
     int score;
@@ -120,9 +117,9 @@ public:
         return os;
     }
     ~Player() { std::cout<<"Destructor Player\n"; }
-};
+};*/
 
-class Configuration {
+/*class Configuration {
 private:
     std::string difficulty;
     int time_limit;
@@ -175,13 +172,13 @@ public:
         else
             std::perror("file not found");
     }
-};
+};*/
 
 int main()
 {
     Dictionary dict1({}, {}), dict2({"pressured", "vanilla", "interrogation"}, {});
     dict1.addWords({"red"});
-    dict1.loadDictionaryFromFile("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\dict_test.txt");
+    dict1.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
     dict1.addWords({"surprisingly", "forecast", "weathered"});
     operator<<(std::cout, dict1);
     dict1 = dict2;
@@ -191,7 +188,7 @@ int main()
     std::cout<<"\n";
 
     Dictionary dict({}, {});
-    dict.loadDictionaryFromFile("D:\\cursuri\\Semestrul 2\\OOP\\Lab\\Scribble-Jam\\dict_test.txt");
+    dict.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
     operator<<(std::cout, dict);
     Word word1("ou"), word2("iti"), word3("ess"), word4("it"), word5("pen");
     std::cout<<word1.wordAttempt("house", dict)<<"\n";
