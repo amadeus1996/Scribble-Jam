@@ -3,48 +3,58 @@
 #include <utility>
 #include <fstream>
 
-Configuration::Configuration(std::string default_difficulty, const int time_limit, const int starting_lives) : difficulty{std::move(default_difficulty)}, time_limit{time_limit}, starting_lives{starting_lives} {
-    std::cout<<"Constructor initializare Configuration\n";
+Configuration::Configuration(std::string defaultDifficulty, const int defaultTimeLimit, const int defaultStartingLives)
+        : difficulty{std::move(defaultDifficulty)}, timeLimit{defaultTimeLimit}, startingLives{defaultStartingLives} {
+    std::cout << "Initialization constructor Configuration\n";
 }
-Configuration::Configuration(const Configuration &other) : difficulty{other.difficulty}, time_limit{other.time_limit}, starting_lives{other.starting_lives} {
-    std::cout<<"Constructor copiere Configuration\n";
+
+Configuration::Configuration(const Configuration &other) : difficulty{other.difficulty}, timeLimit{other.timeLimit},
+                                                           startingLives{other.startingLives} {
+    std::cout << "Copy constructor Configuration\n";
 }
-Configuration& Configuration::operator=(const Configuration &other) {
+
+Configuration &Configuration::operator=(const Configuration &other) {
     this->difficulty = other.difficulty;
-    this->time_limit = other.time_limit;
-    this->starting_lives = other.starting_lives;
-    std::cout<<"operator= copiere Configuration\n";
+    this->timeLimit = other.timeLimit;
+    this->startingLives = other.startingLives;
+    std::cout << "Assignment operator Configuration\n";
     return *this;
 }
+
 std::ostream &operator<<(std::ostream &os, const Configuration &config) {
-    os<<"Difficulty: "<<config.difficulty<<"\nTime limit: "<<config.time_limit<<"\n"<<"Lives: "<<config.starting_lives<<"\n";
+    os << "Difficulty: " << config.difficulty << "\nTime limit: " << config.timeLimit << "\n" << "Lives: "
+       << config.startingLives << "\n";
     return os;
 }
-Configuration::~Configuration() { std::cout<<"Destructor Configuration\n"; }
 
-void Configuration::loadSettings() {
-    std::string user_difficulty;
+Configuration::~Configuration() { std::cout << "Destructor Configuration\n"; }
+
+/**
+ * @details
+ * The player inputs a difficulty; if it doesn't match any of the game's default difficulties, it will be considered
+ * "CUSTOM", and the player will be able to edit both the amount of starting lives and time limit. If the file cannot
+ * be opened, the program will throw an error.
+ */
+void Configuration::inputSettings() {
+    std::string inputDifficulty;
     std::ifstream f(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\tastatura.txt)");
     if (f.is_open()) {
-        f>>user_difficulty;
-        std::transform(user_difficulty.begin(), user_difficulty.end(), user_difficulty.begin(), ::toupper);
-        if (user_difficulty == "EASY") {
-            this->difficulty = user_difficulty, this->time_limit = 15, this->starting_lives = 5;
-        }
-        else if (user_difficulty == "NORMAL") {
-            this->difficulty = user_difficulty, this->time_limit = 10, this->starting_lives = 3;
-        }
-        else if (user_difficulty == "HARD") {
-            this->difficulty = user_difficulty, this->time_limit = 5, this->starting_lives = 2;
-        }
-        else {
+        f >> inputDifficulty;
+        std::transform(inputDifficulty.begin(), inputDifficulty.end(), inputDifficulty.begin(),
+                       ::toupper);
+        if (inputDifficulty == "EASY") {
+            this->difficulty = inputDifficulty, this->timeLimit = 15, this->startingLives = 5;
+        } else if (inputDifficulty == "NORMAL") {
+            this->difficulty = inputDifficulty, this->timeLimit = 10, this->startingLives = 3;
+        } else if (inputDifficulty == "HARD") {
+            this->difficulty = inputDifficulty, this->timeLimit = 5, this->startingLives = 2;
+        } else {
             this->difficulty = "CUSTOM";
-            int user_time_limit, user_starting_lives;
-            f>>user_time_limit>>user_starting_lives;
-            this->time_limit = user_time_limit;
-            this->starting_lives = user_starting_lives;
+            int inputTimeLimit, inputStartingLives;
+            f >> inputTimeLimit >> inputStartingLives;
+            this->timeLimit = inputTimeLimit;
+            this->startingLives = inputStartingLives;
         }
-    }
-    else
+    } else
         std::perror("file not found");
 }
