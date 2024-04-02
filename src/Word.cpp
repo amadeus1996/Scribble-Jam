@@ -27,15 +27,14 @@ Word::~Word() { std::cout << "Destructor Word\n"; }
 
 /**
  * @details
- * There are two getters from the @ref Dictionary class, used for updating the list of guessed words and the current
- * @ref Dictionary object.
+ * The @ref getWordTracker getter is used to get the list of words guessed so far.
+ * If the inputted word contains the necessary letters and has not been guessed so far, the @ref updateWordTracker
+ * function is called to update the @ref wordTracker of the current dictionary object.
  */
 [[nodiscard]] bool Word::wordAttempt(const std::string &inputWord, Dictionary &dictObject) {
     std::map<std::string, bool> wordTracker = dictObject.getWordTracker();
-    std::vector<std::string> dictionary = dictObject.getDictionary();
     if (inputWord.find(letters) != std::string::npos && wordTracker.find(inputWord) == wordTracker.end()) {
-        wordTracker[inputWord] = true;
-        dictObject = *new Dictionary(dictionary, wordTracker);
+        Dictionary::updateWordTracker(dictObject, inputWord);
         return true;
     }
     return false;

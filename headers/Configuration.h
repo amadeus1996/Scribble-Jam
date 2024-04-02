@@ -12,7 +12,6 @@ private:
 public:
     /**
      * @brief This is the @ref Configuration class for the current game's settings.
-     *
      * @param defaultDifficulty
      * @param defaultTimeLimit
      * @param defaultStartingLives

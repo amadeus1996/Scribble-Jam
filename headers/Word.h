@@ -11,7 +11,6 @@ private:
 public:
     /**
      * @brief This is the @ref Word class for the hints.
-     *
      * @param letters
      */
     explicit Word(std::string letters);
@@ -26,10 +25,8 @@ public:
 
     /**
      * @brief The function @ref wordAttempt checks if the player guesses the word correctly or not.
-     *
      * @param inputWord
      * @param dictObject
-     *
      * @retval true - the guess was correct
      * @retval false - the guess was wrong
      */

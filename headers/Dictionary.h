@@ -12,7 +12,6 @@ private:
 public:
     /**
      * @brief This is the @ref Dictionary class for the words available in the dictionary and the words used so far.
-     *
      * @param dictionary
      * @param wordTracker
      */
@@ -39,20 +38,18 @@ public:
     void emptyDictionary();
 
     /**
-     * @brief The @ref getDictionary function is a getter used in the @ref wordAttempt function from the @ref Word
-     * class.
-     *
-     * @return The words available in the current game's dictionary.
-     */
-    [[nodiscard]] const std::vector<std::string> &getDictionary() const;
-
-    /**
      * @brief The @ref getWordTracker function is a getter used in the @ref wordAttempt function from the @ref Word
      * class.
-     *
      * @return The words used so far in the current game.
      */
     [[nodiscard]] const std::map<std::string, bool> &getWordTracker() const;
+
+    /**
+     * @brief The @ref updateWordTracker function adds a new word to wordTracker.
+     * @param dict
+     * @param word
+     */
+    static void updateWordTracker(Dictionary &dict, const std::string &word);
 };
 
 #endif //OOP_DICTIONARY_H

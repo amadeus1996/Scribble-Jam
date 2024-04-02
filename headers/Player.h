@@ -10,7 +10,6 @@ private:
 public:
     /**
      * @brief This is the @ref Player class to keep track of the player's progress.
-     *
      * @param lives
      * @param score
      */

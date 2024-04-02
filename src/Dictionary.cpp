@@ -67,10 +67,10 @@ void Dictionary::emptyDictionary() {
     this->wordTracker.clear();
 }
 
-const std::vector<std::string> &Dictionary::getDictionary() const {
-    return dictionary;
-}
-
 const std::map<std::string, bool> &Dictionary::getWordTracker() const {
     return wordTracker;
+}
+
+void Dictionary::updateWordTracker(Dictionary &dict, const std::string &word) {
+    dict.wordTracker[word] = true;
 }
