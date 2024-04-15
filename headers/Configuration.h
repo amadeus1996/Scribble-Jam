@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
+
 class Configuration {
 private:
     std::string difficulty;

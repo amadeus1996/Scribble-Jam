@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 
+
 class Word {
 private:
     std::string letters;
@@ -30,7 +31,8 @@ public:
      * @retval true - the guess was correct
      * @retval false - the guess was wrong
      */
-    [[nodiscard]] bool wordAttempt(const std::string &inputWord, Dictionary &dictObject);
+    bool wordAttempt(const std::string &inputWord, Dictionary &dictObject);
 };
+
 
 #endif //OOP_WORD_H

@@ -3,6 +3,7 @@
 #include <utility>
 #include <fstream>
 
+
 Configuration::Configuration(std::string defaultDifficulty, const int defaultTimeLimit, const int defaultStartingLives)
         : difficulty{std::move(defaultDifficulty)}, timeLimit{defaultTimeLimit}, startingLives{defaultStartingLives} {
     std::cout << "Initialization constructor Configuration\n";
@@ -27,7 +28,9 @@ std::ostream &operator<<(std::ostream &os, const Configuration &config) {
     return os;
 }
 
-Configuration::~Configuration() { std::cout << "Destructor Configuration\n"; }
+Configuration::~Configuration() {
+    std::cout << "Destructor Configuration\n";
+}
 
 /**
  * @details
@@ -37,11 +40,10 @@ Configuration::~Configuration() { std::cout << "Destructor Configuration\n"; }
  */
 void Configuration::inputSettings() {
     std::string inputDifficulty;
-    std::ifstream f(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\tastatura.txt)");
-    if (f.is_open()) {
+    try {
+        std::ifstream f(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\tastatura.txt)");
         f >> inputDifficulty;
-        std::transform(inputDifficulty.begin(), inputDifficulty.end(), inputDifficulty.begin(),
-                       ::toupper);
+        std::transform(inputDifficulty.begin(), inputDifficulty.end(), inputDifficulty.begin(), ::toupper);
         if (inputDifficulty == "EASY") {
             this->difficulty = inputDifficulty, this->timeLimit = 15, this->startingLives = 5;
         } else if (inputDifficulty == "NORMAL") {
@@ -55,6 +57,8 @@ void Configuration::inputSettings() {
             this->timeLimit = inputTimeLimit;
             this->startingLives = inputStartingLives;
         }
-    } else
-        std::perror("file not found");
+    }
+    catch (const std::ifstream::failure &err) {
+        std::cerr << err.what() << "\n";
+    }
 }

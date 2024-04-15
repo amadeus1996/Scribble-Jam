@@ -99,7 +99,16 @@ add_executable(${PROJECT_NAME} main.cpp
         src/Player.cpp
         headers/Player.h
         src/Configuration.cpp
-        headers/Configuration.h)
+        headers/Configuration.h
+        src/Game.cpp
+        headers/Game.h
+        src/HumanPlayer.cpp
+        headers/HumanPlayer.h
+        src/Statistics.cpp
+        headers/Statistics.h
+        src/ComputerPlayer.cpp
+        headers/ComputerPlayer.h
+)
 
 ###############################################################################
 

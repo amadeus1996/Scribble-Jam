@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 #include <utility>
+#include <algorithm>
+
 
 Word::Word(std::string letters) : letters{std::move(letters)} {
     std::cout << "Initialization constructor Word\n";
@@ -23,7 +25,9 @@ std::ostream &operator<<(std::ostream &os, const Word &word) {
     return os;
 }
 
-Word::~Word() { std::cout << "Destructor Word\n"; }
+Word::~Word() {
+    std::cout << "Destructor Word\n";
+}
 
 /**
  * @details
@@ -33,7 +37,10 @@ Word::~Word() { std::cout << "Destructor Word\n"; }
  */
 [[nodiscard]] bool Word::wordAttempt(const std::string &inputWord, Dictionary &dictObject) {
     std::map<std::string, bool> wordTracker = dictObject.getWordTracker();
-    if (inputWord.find(letters) != std::string::npos && wordTracker.find(inputWord) == wordTracker.end()) {
+    std::vector<std::string> dictionary = dictObject.getDictionary();
+
+    if (inputWord.find(letters) != std::string::npos && wordTracker.find(inputWord) == wordTracker.end() &&
+        std::count(dictionary.begin(), dictionary.end(), inputWord) > 0) {
         Dictionary::updateWordTracker(dictObject, inputWord);
         return true;
     }
