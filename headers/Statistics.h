@@ -15,19 +15,19 @@ private:
 public:
     explicit Statistics(int guesses = 0, int correctGuesses = 0, float accuracy = 0, int score = 0, int playtime = 0);
 
-    Statistics(const Statistics &other);
+    Statistics(const Statistics &);
 
-    Statistics &operator=(Statistics const &other);
+    Statistics &operator=(Statistics const &);
 
-    friend std::ostream &operator<<(std::ostream &os, const Statistics &statistics);
+    friend std::ostream &operator<<(std::ostream &, const Statistics &);
 
     ~Statistics();
 
-    static void updateOverallStats(Statistics &stats);
+    static void updateOverallStats(Statistics &);
 
     void resetStats();
 
-    void updateStats(bool ok);
+    void updateStats(bool);
 };
 
 

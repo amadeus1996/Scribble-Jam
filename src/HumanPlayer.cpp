@@ -5,9 +5,9 @@
 #include "../headers/Configuration.h"
 
 
-HumanPlayer::HumanPlayer(std::string name) : Player{3}, name{std::move(name)} {
-    std::cout << "Initialization constructor HumanPlayer\n";
-}
+//HumanPlayer::HumanPlayer(std::string name) : Player{3}, name{std::move(name)} {
+//    std::cout << "Initialization constructor HumanPlayer\n";
+//}
 
 HumanPlayer &HumanPlayer::operator=(const HumanPlayer &other) {
     this->lives = other.lives;
@@ -26,7 +26,7 @@ HumanPlayer::~HumanPlayer() {
     std::cout << "Destructor HumanPlayer\n";
 }
 
-void HumanPlayer::guessWord(Dictionary &dictObject, Word &wordObject) {
+void HumanPlayer::guessWord(Dictionary<std::string> &dictObject, Word &wordObject) {
     bool ok = false;
     std::string inputWord;
     std::cin >> inputWord;
@@ -34,7 +34,10 @@ void HumanPlayer::guessWord(Dictionary &dictObject, Word &wordObject) {
     if (wordObject.wordAttempt(inputWord, dictObject)) {
         ok = true;
         std::cout << "Correct\n";
-    } else std::cout << "Incorrect\n";
+    } else {
+        std::cout << "Incorrect\n";
+        --lives;
+    }
     stats.updateStats(ok);
 }
 

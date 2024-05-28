@@ -8,18 +8,16 @@
 
 
 class HumanPlayer : public Player {
-private:
-    std::string name;
 public:
-    explicit HumanPlayer(std::string name = "noname");
+    HumanPlayer() = default;
 
-    HumanPlayer &operator=(const HumanPlayer &other);
+    HumanPlayer &operator=(const HumanPlayer &);
 
-    friend std::ostream &operator<<(std::ostream &os, const HumanPlayer &player);
+    friend std::ostream &operator<<(std::ostream &, const HumanPlayer &);
 
     ~HumanPlayer() override;
 
-    void guessWord(Dictionary &dictObject, Word &wordObject) override;
+    void guessWord(Dictionary<std::string> &, Word &) override;
 
     [[nodiscard]] Player *clone() const override;
 };

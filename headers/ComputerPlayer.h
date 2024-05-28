@@ -10,15 +10,15 @@ class ComputerPlayer : public Player {
 public:
     ComputerPlayer();
 
-    ComputerPlayer &operator=(const ComputerPlayer &other);
+    ComputerPlayer &operator=(const ComputerPlayer &);
 
-    friend std::ostream &operator<<(std::ostream &os, ComputerPlayer &computerPlayer);
+    friend std::ostream &operator<<(std::ostream &, ComputerPlayer &);
 
     ~ComputerPlayer() override;
 
     [[nodiscard]] Player *clone() const override;
 
-    void guessWord(Dictionary &dictObject, Word &wordObject) override;
+    void guessWord(Dictionary<std::string> &, Word &) override;
 };
 
 

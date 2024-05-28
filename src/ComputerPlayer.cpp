@@ -1,7 +1,7 @@
 #include "../headers/ComputerPlayer.h"
 
 
-ComputerPlayer::ComputerPlayer() : Player{3} {
+ComputerPlayer::ComputerPlayer() {
     std::cout << "Initialization constructor ComputerPlayer\n";
 }
 
@@ -26,6 +26,7 @@ Player *ComputerPlayer::clone() const {
     return new ComputerPlayer(*this);
 }
 
-void ComputerPlayer::guessWord(Dictionary &dictObject, Word &wordObject) {
+//
+void ComputerPlayer::guessWord(Dictionary<std::string> &dictObject, Word &wordObject) {
     std::cout << "ComputerPlayer guessWord\n";
 }

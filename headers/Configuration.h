@@ -6,32 +6,29 @@
 
 
 class Configuration {
-private:
+protected:
     std::string difficulty;
     int timeLimit;
     int startingLives;
+    int numOfPlayers;
 public:
     /**
      * @brief This is the @ref Configuration class for the current game's settings.
-     * @param defaultDifficulty
-     * @param defaultTimeLimit
-     * @param defaultStartingLives
+     * @param difficulty
+     * @param timeLimit
+     * @param startingLives
+     * @param numOfPlayers
      */
-    explicit Configuration(std::string defaultDifficulty = "NORMAL", int defaultTimeLimit = 10,
-                           int defaultStartingLives = 3);
 
-    Configuration(const Configuration &other);
+    virtual ~Configuration();
 
-    Configuration &operator=(const Configuration &other);
+    virtual void loadSettings() = 0;
 
-    friend std::ostream &operator<<(std::ostream &os, const Configuration &config);
+//    Configuration(const Configuration &other);
 
-    ~Configuration();
+//    Configuration &operator=(const Configuration &other);
 
-    /**
-     * @brief The @ref inputSettings function receives input from the player to change the difficulty of the game.
-     */
-    void inputSettings();
+    friend std::ostream &operator<<(std::ostream &, const Configuration *);
 };
 
 

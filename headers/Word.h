@@ -14,13 +14,13 @@ public:
      * @brief This is the @ref Word class for the hints.
      * @param letters
      */
-    explicit Word(std::string letters);
+    explicit Word(std::string);
 
-    Word(const Word &other);
+    Word(const Word &);
 
-    Word &operator=(const Word &other);
+    Word &operator=(const Word &);
 
-    friend std::ostream &operator<<(std::ostream &os, const Word &word);
+    friend std::ostream &operator<<(std::ostream &, const Word &);
 
     ~Word();
 
@@ -31,7 +31,7 @@ public:
      * @retval true - the guess was correct
      * @retval false - the guess was wrong
      */
-    bool wordAttempt(const std::string &inputWord, Dictionary &dictObject);
+    bool wordAttempt(const std::string &, Dictionary<std::string> &);
 };
 
 
