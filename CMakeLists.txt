@@ -108,6 +108,14 @@ add_executable(${PROJECT_NAME} main.cpp
         headers/Statistics.h
         src/ComputerPlayer.cpp
         headers/ComputerPlayer.h
+        src/HumanPlayerBuilder.cpp
+        headers/HumanPlayerBuilder.h
+        src/DefaultConfiguration.cpp
+        headers/DefaultConfiguration.h
+        src/CustomConfiguration.cpp
+        headers/CustomConfiguration.h
+        src/ConfigurationFactory.cpp
+        headers/ConfigurationFactory.h
 )
 
 ###############################################################################

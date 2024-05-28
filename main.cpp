@@ -5,8 +5,12 @@
 #include "headers/HumanPlayer.h"
 #include "headers/ComputerPlayer.h"
 #include "headers/Game.h"
+#include "headers/HumanPlayerBuilder.h"
+#include "headers/DefaultConfiguration.h"
+#include "headers/CustomConfiguration.h"
 #include <iostream>
 #include <random>
+#include <typeinfo>
 
 int main() {
 //    Dictionary dict1({}, {}), dict2({"pressured", "vanilla", "interrogation"}, {});
@@ -122,47 +126,151 @@ int main() {
 //    d.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
 //    std::cout << d.getLength() << "\n";
 
-    Dictionary d;
-    d.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
-    operator<<(std::cout, d);
-    std::cout << "\n";
+//    Dictionary d;
+//    d.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
+//    operator<<(std::cout, d);
+//    std::cout << "\n";
 
-    Player *p = new HumanPlayer("Player");
-    std::cout << *dynamic_cast<HumanPlayer *>(p);
-    std::cout << "\n";
+//    Player *p = new HumanPlayer("Player");
+//    std::cout << *dynamic_cast<HumanPlayer *>(p);
+//    std::cout << "\n";
 
-    {
-        for (int i = 0; i < 3; i++) {
-            Word w(Dictionary::getRandomHint());
-            operator<<(std::cout, w);
-            std::cout << "\n";
-            p->guessWord(d, w);
-            std::cout << *dynamic_cast<HumanPlayer *>(p);
-            std::cout << "\n";
-            operator<<(std::cout, d);
-            std::cout << "\n";
-        }
-    }
+//    {
+//        for (int i = 0; i < 3; i++) {
+//            Word w(Dictionary::getRandomHint());
+//            operator<<(std::cout, w);
+//            std::cout << "\n";
+//            p->guessWord(d, w);
+//            std::cout << *dynamic_cast<HumanPlayer *>(p);
+//            std::cout << "\n";
+//            operator<<(std::cout, d);
+//            std::cout << "\n";
+//        }
+//    }
+//
+//    p->updatePlayerStats();
+//    std::cout << *dynamic_cast<HumanPlayer *>(p);
+//
+//    {
+//        for (int i = 0; i < 3; i++) {
+//            Word w(Dictionary::getRandomHint());
+//            operator<<(std::cout, w);
+//            std::cout << "\n";
+//            p->guessWord(d, w);
+//            std::cout << *dynamic_cast<HumanPlayer *>(p);
+//            std::cout << "\n";
+//            operator<<(std::cout, d);
+//            std::cout << "\n";
+//        }
+//    }
+//
+//    p->updatePlayerStats();
+//    std::cout << *dynamic_cast<HumanPlayer *>(p);
+//
+//    delete p;
 
-    p->updatePlayerStats();
-    std::cout << *dynamic_cast<HumanPlayer *>(p);
+//    Player* p1 = new HumanPlayer;
+//    Player* p2 = new HumanPlayer;
+//    HumanPlayerBuilder builder;
+//    builder.setLives(4);
+//    builder.setName("Player 1");
+//    p1 = builder.build();
+//    builder.setName("Player 2");
+//    p2 = builder.build();
+//    std::cout << *dynamic_cast<HumanPlayer *>(p1)<<"\n";
+//    std::cout << *dynamic_cast<HumanPlayer *>(p2);
 
-    {
-        for (int i = 0; i < 3; i++) {
-            Word w(Dictionary::getRandomHint());
-            operator<<(std::cout, w);
-            std::cout << "\n";
-            p->guessWord(d, w);
-            std::cout << *dynamic_cast<HumanPlayer *>(p);
-            std::cout << "\n";
-            operator<<(std::cout, d);
-            std::cout << "\n";
-        }
-    }
+//    std::vector<Player*> players;
+//    players.push_back(p1);
+//    players.push_back(p2);
+//    for (const auto player : players)
+//        std::cout << *dynamic_cast<HumanPlayer *>(player);
 
-    p->updatePlayerStats();
-    std::cout << *dynamic_cast<HumanPlayer *>(p);
+//    std::cout<<*dynamic_cast<HumanPlayer*>(p1);
 
-    delete p;
+//    Dictionary dict;
+//    dict.addWords({"water", "overpopulated"});
+//    dict.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
+
+//    ConfigurationFactory<DefaultConfiguration> defaultConfig;
+//    ConfigurationFactory<CustomConfiguration> customConfig;
+//    Configuration* c = defaultConfig.createConfig();
+//    c->loadSettings();
+//    std::cout<<c;
+//    c = customConfig.createConfig();
+//    c->loadSettings();
+//    std::cout<<c;
+//    delete c;
+//    delete p1;
+//    delete p2;
+
+    ConfigurationFactory<DefaultConfiguration> defaultFactory;
+    ConfigurationFactory<CustomConfiguration> customFactory;
+    Configuration* c = defaultFactory.createConfig();
+//    c->loadSettings();
+//    std::cout<<c;
+//    c = customFactory.createConfig();
+//    c->loadSettings();
+//    std::cout<<c;
+
+
+
+//    auto& x = Game::getGame(players, dict);
+
+//    x.playerInput();
+
+//    delete p1;
+//    delete p2;
+
+//    Statistics s;
+//    HumanPlayerBuilder builder;
+//
+//    HumanPlayer p = builder.setStats(s).setLives(5).build();
+//    Dictionary dict;
+//    dict.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
+//    Word hint = Word(Dictionary::getRandomHint());
+//    std::cout<<"Hint: "<<hint<<"\n";
+//    p.guessWord(dict, hint);
+//    operator<<(std::cout, p);
+//    p = builder.setName("Test").build();
+//    operator<<(std::cout, p);
+//    p = builder.setLives(3).setName("Test").setStats(s).build();
+//    operator<<(std::cout, p);
+
+    // ---------------------------------------------------------------------------------------------------------
+
+    Player* p1 = new HumanPlayer;
+    Player* p2 = new HumanPlayer;
+    HumanPlayerBuilder builder;
+    builder.setLives(2);
+    builder.setName("Player 1");
+    p1 = builder.build();
+    builder.setName("Player 2");
+    p2 = builder.build();
+
+    std::vector<Player*> players;
+    players.push_back(p1);
+    players.push_back(p2);
+
+    Dictionary<std::string> dict;
+    dict.addWords({"water", "overpopulated"});
+    dict.loadDictionaryFromFile(R"(D:\cursuri\Semestrul 2\OOP\Lab\Scribble-Jam\dict_test.txt)");
+
+    Game* game = Game::getInstance(players, dict);
+//    std::cout<<*game;
+
+//    builder.setLives(0);
+//    builder.setName("TEST");
+//    players[0] = builder.build();
+//    players[1] = builder.build();
+
+//    Game* game2 = Game::getInstance(players, dict);
+//    std::cout<<*game2;
+
+    game->run();
+
+    delete p1;
+    delete p2;
+//    delete game;
     return 0;
 }

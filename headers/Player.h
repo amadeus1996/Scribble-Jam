@@ -7,31 +7,42 @@
 #include "Statistics.h"
 
 
+class HumanPlayerBuilder;
+
+
 class Player {
 protected:
     Statistics stats;
     int lives{};
+    std::string name;
 
-    Player(const Player &other);
+    Player(const Player &);
 
-    Player &operator=(const Player &other);
+    Player &operator=(const Player &);
 
 public:
     /**
      * @brief This is the @ref Player class to keep track of the player's progress.
      * @param lives
      */
-    explicit Player(int lives);
+//    explicit Player(int);
+    Player() = default;
 
-    friend std::ostream &operator<<(std::ostream &os, const Player &player);
+    friend std::ostream &operator<<(std::ostream &, const Player &);
 
     virtual ~Player();
 
-    virtual void guessWord(Dictionary &dictObject, Word &wordObject) = 0;
+    virtual void guessWord(Dictionary<std::string> &, Word &) = 0;
 
     void updatePlayerStats();
 
     [[nodiscard]] virtual Player *clone() const = 0;
+
+    std::string getName();
+
+    [[nodiscard]] bool isEliminated() const;
+
+    friend class HumanPlayerBuilder;
 };
 
 

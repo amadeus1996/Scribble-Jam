@@ -35,13 +35,13 @@ Word::~Word() {
  * If the inputted word contains the necessary letters and has not been guessed so far, the @ref updateWordTracker
  * function is called to update the @ref wordTracker of the current dictionary object.
  */
-[[nodiscard]] bool Word::wordAttempt(const std::string &inputWord, Dictionary &dictObject) {
+[[nodiscard]] bool Word::wordAttempt(const std::string &inputWord, Dictionary<std::string> &dictObject) {
     std::map<std::string, bool> wordTracker = dictObject.getWordTracker();
     std::vector<std::string> dictionary = dictObject.getDictionary();
 
     if (inputWord.find(letters) != std::string::npos && wordTracker.find(inputWord) == wordTracker.end() &&
         std::count(dictionary.begin(), dictionary.end(), inputWord) > 0) {
-        Dictionary::updateWordTracker(dictObject, inputWord);
+        Dictionary<std::string>::updateWordTracker(dictObject, inputWord);
         return true;
     }
     return false;
